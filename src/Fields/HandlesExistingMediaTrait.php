@@ -3,9 +3,9 @@
 namespace Ebess\AdvancedNovaMediaLibrary\Fields;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
+use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -27,7 +27,7 @@ trait HandlesExistingMediaTrait
             ->filter(function ($value) use ($addedMediaIds) {
                 return (!($value instanceof UploadedFile)) && !(in_array((int) $value, $addedMediaIds));
             })->map(function ($model_id, int $index) use ($request, $model, $collection) {
-                $mediaClass = config('medialibrary.media_model');
+                $mediaClass = config('media-library.media_model');
                 $existingMedia = $mediaClass::find($model_id);
 
                 // Mimic copy behaviour
